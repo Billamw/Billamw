@@ -75,7 +75,7 @@ function triangularImpuls(t) {
 }
 
 function randomFunction(t) {
-  return rectImpuls(t) + .5*triangularImpuls(2*t) + paralbolaFunction(t-1);
+  return rectImpuls(t) + .5*rectImpuls(2*(t-1));
   //return convolution(rectImpuls, rectImpuls, t);
 }
 
