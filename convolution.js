@@ -45,7 +45,7 @@ function draw() {
   drawImpuls(impuls2, t02, T2);
 
   stroke(255,0,0);
-  strokeWeight(2);
+  strokeWeight(3);
 
   drawConvolution(impuls1, impuls2);
 
