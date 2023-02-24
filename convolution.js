@@ -15,17 +15,15 @@ let b2 = t02 + T2/2;
 
 let functionInput;
 
-let impuls1 = rectImpuls;
-let impuls2 = randomFunction;
-
+let st = randomImpuls;
+let ht = rectImpuls;
 
 function setup() {
   createCanvas(600, 600);
 
   slidert0 = createSlider(xMin, xMax, -2, 0.05);
   slidert0.style('width', '300px')
-  inputT = createInput('1');
-  inputT.size(20);
+  sliderT = createSlider(.5, 2, 1, .5);
 
   stroke(0);
   noFill();
@@ -37,17 +35,15 @@ function draw() {
   t0 = slidert0.value();
   b1 = t0 + T/2;
   a2 = t0 - T/2;
+  T = sliderT.value();
 
-  T = inputT.value();
-
-
-  drawImpuls(impuls1, t0, T);
-  drawImpuls(impuls2, t02, T2);
+  drawst(st, t02, T2);
+  drawht(ht, t0, T);
 
   stroke(255,0,0);
-  strokeWeight(3);
+  strokeWeight(2);
 
-  drawConvolution(impuls1, impuls2);
+  drawConvolution(st, ht);
 
   strokeWeight(1);
   stroke(0);
@@ -60,65 +56,82 @@ function draw() {
 }
 
 
-function rectImpuls(t) {
-  if(abs(t)<=1/2){
-    return 1;
+function rectImpuls(T, t) {
+  if(abs(t)<=T/2){
+    return 1/T;
   }
   return 0;
 }
 
-function triangularImpuls(t) {
-  if(abs(t) <= 1) {
-    return 1-abs(t);
+function triangularImpuls(T, t) {
+  if(abs(t) <= T) {
+    return (1/T*(1-abs(t)/T));
+  }
+  else {
+    return 0;
+  }
+}
+
+function randomImpuls(T, t) {
+  //return rectImpuls(1, t) + rectImpuls(.5, t-1);
+  if(t>-.5 && t<.5) {
+    return t+.5;
   }
   return 0;
 }
 
-function randomFunction(t) {
-  return rectImpuls(t) + rectImpuls(2*(t-1));
-  //return convolution(rectImpuls, rectImpuls, t);
-}
-
-function paralbolaFunction(t) {
+function paralbolaImpuls(T, t) {
   if(abs(t)<=0.5){
     return (t-.5)*(t-.5);
   }
   return 0;
 }
 
-function drawImpuls(impuls, t0, T) {
+function drawst(impuls, t0, T) {
   beginShape();
   for (let x = xMin; x <= xMax; x += 0.01) {
-    let y = impuls((x-t0)/T);
+    let y = impuls(T,(x-t0));
     vertex(map(x, xMin, xMax, 0, width), map(y, yMin, yMax, height, 0));
   }
   endShape();
 }
 
-function drawConvolution(impuls1, impuls2) {
-  let y = 0;
+function drawht(impuls, t0, T) {
   beginShape();
-  for (let t = xMin; t <= t0; t += 0.01) {
-    y = convolution(impuls1, impuls2, t);
-    vertex(map(t, xMin, xMax, 0, width), map(y, yMin, yMax, height, 0));
+  for (let x = xMin; x <= xMax; x += 0.01) {
+    // mirroring the graph around the y achsis
+    let y = impuls(T,(-x+t0));
+    vertex(map(x, xMin, xMax, 0, width), map(y, yMin, yMax, height, 0));
   }
   endShape();
 }
 
-function convolution(impuls1, impuls2, t) {
+function drawConvolution(st, ht) {
+  let y = 0;
+  beginShape();
+  for (let x = xMin; x <= t0; x += 0.01) {
+    y = convolution(st, ht, x);
+    vertex(map(x, xMin, xMax, 0, width), map(y, yMin, yMax, height, 0));
+  }
+  endShape();
+}
+
+function convolution(st, ht, t) {
+  let a = a1-T/2;
+  let b = b2+T/2;
   let tau1, tau2, y1, y2;
-  let dtau = 0.01;
+  let dtau = 0.001;
   let result = 0;
 
-  tau1 = a1-T/2;
-  tau2 = a1-T/2 + dtau;
+  tau1 = a;
+  tau2 = a + dtau;
 
   // making sub rectangles for approximatin overlapping area
-  for (let i = a1-T/2; i <b2+T/2; i+= dtau) {
+  for (let i = a; i < b; i+= dtau) {
 
     // continous convolution
-    y1 = impuls1(tau1/T) * impuls2((t-tau1)/T2);
-    y2 = impuls1(tau2/T) * impuls2((t-tau2)/T2);
+    y1 = st(T, tau1) * ht(T2, (t-tau1));
+    y2 = st(T, tau2) * ht(T2, (t-tau2));
 
     // calculating the area of a sub rectangle
     result += dtau * (y1 + y2) / 2;
