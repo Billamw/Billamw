@@ -18,6 +18,14 @@ let functionInput;
 let st = randomImpuls;
 let ht = rectImpuls;
 
+// import {} from 'mathjs';
+//const math = require('mathjs');
+
+
+
+
+console.log(math.evaluate('1+1'));
+
 function setup() {
   createCanvas(600, 600);
 
