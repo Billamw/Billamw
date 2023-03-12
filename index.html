@@ -13,10 +13,9 @@
     }
   </style>
   
-  <!-- <script src="math.js" type="module"></script> -->
+  <script src="node_modules/mathjs/lib/browser/math.js"></script>
   <script src="p5.min.js"></script>
   <!-- <script src="../addons/p5.sound.js"></script> -->
-  <!-- <script src="sketch.js"></script> -->
   <script src="convolution.js"></script>
 </head>
 
@@ -24,12 +23,26 @@
   <main>
   </main>
   <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
-  <!-- <div>
-    <label for="formula-input">Formel:</label>
-    <input type="text" id="formula-input">
-    <button id="submit-button">Zeichnen</button>
+  <div>
+    <label style="color: white;" for="setHt">h(t):</label>
+    <select onchange="setHt()">
+      <option value="rect">rect impuls</option>
+      <option value="triangular">triangular impuls</option>
+      <option value="option3">parabola function</option>
+    </select>
+
+    <label style="color: white;">s(t):</label>
+    <select onchange="setSt()">
+      <option value="rect">rect impuls</option>
+      <option value="triangular">triangular impuls</option>
+      <option value="option3">parabola function</option>
   </div>
-  <div id="canvas-container"></div> -->
+
+  <div>
+    </select>
+
+  </div>
+
   <!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
 </body>
 

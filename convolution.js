@@ -13,28 +13,19 @@ let b1 = t0 + T/2;
 let a2 = t0 - T/2;
 let b2 = t02 + T2/2; 
 
-let functionInput;
-
-let st = randomImpuls;
+let st = rectImpuls;
 let ht = rectImpuls;
-
-// import {} from 'mathjs';
-//const math = require('mathjs');
-
-
-
-
-console.log(math.evaluate('1+1'));
 
 function setup() {
   createCanvas(600, 600);
 
-  slidert0 = createSlider(xMin, xMax, -2, 0.05);
+  slidert0 = createSlider(xMin, xMax, -3, 0.05);
   slidert0.style('width', '300px')
   sliderT = createSlider(.5, 2, 1, .5);
-
+  
   stroke(0);
-  noFill();
+
+
 }
 
 function draw() {
@@ -45,9 +36,12 @@ function draw() {
   a2 = t0 - T/2;
   T = sliderT.value();
 
+  noFill();
+  
   drawst(st, t02, T2);
   drawht(ht, t0, T);
-
+  
+  //making the Convolution red and thicker
   stroke(255,0,0);
   strokeWeight(2);
 
@@ -63,6 +57,29 @@ function draw() {
 
 }
 
+function setSt() {
+  slidert0.value(-3);
+  var selectedOption = document.querySelector("select:last-of-type").value;
+  if (selectedOption === "rect") {
+    st = rectImpuls;
+  } else if (selectedOption === "triangular") {
+    st = triangularImpuls;
+  } else if (selectedOption === "option3") {
+    st = paralbolaImpuls;
+  }
+}
+
+function setHt() {
+  slidert0.value(-3);
+  var selectedOption = document.querySelector("select:first-of-type").value;
+  if (selectedOption === "rect") {
+    ht = rectImpuls;
+  } else if (selectedOption === "triangular") {
+    ht = triangularImpuls;
+  } else if (selectedOption === "option3") {
+    ht = paralbolaImpuls;
+  }
+}
 
 function rectImpuls(T, t) {
   if(abs(t)<=T/2){
@@ -82,7 +99,7 @@ function triangularImpuls(T, t) {
 
 function randomImpuls(T, t) {
   //return rectImpuls(1, t) + rectImpuls(.5, t-1);
-  if(t>-.5 && t<.5) {
+  if(t>-T/2 && t<T/2) {
     return t+.5;
   }
   return 0;
@@ -128,7 +145,7 @@ function convolution(st, ht, t) {
   let a = a1-T/2;
   let b = b2+T/2;
   let tau1, tau2, y1, y2;
-  let dtau = 0.001;
+  let dtau = 0.01;
   let result = 0;
 
   tau1 = a;
@@ -144,7 +161,7 @@ function convolution(st, ht, t) {
     // calculating the area of a sub rectangle
     result += dtau * (y1 + y2) / 2;
     tau1 = tau2;
-    tau2 = tau1 + dtau;
+    tau2 += dtau;
   }
 
   return result;
