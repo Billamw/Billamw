@@ -16,7 +16,17 @@
   <script src="node_modules/mathjs/lib/browser/math.js"></script>
   <script src="p5.min.js"></script>
   <!-- <script src="../addons/p5.sound.js"></script> -->
-  <script src="convolution.js"></script>
+  
+  <script type="text/javascript">
+    function runSelectedScript() {
+      var dropdown = document.getElementById("scriptSelector");
+			var selectedScript = dropdown.value;
+			var scriptElement = document.createElement('script');
+			scriptElement.src = selectedScript;
+			document.head.appendChild(scriptElement);
+		}
+    </script>
+  <!-- <script src="convolution.js"></script>  -->
 </head>
 
 <body>
@@ -41,6 +51,15 @@
   <div>
     </select>
 
+  </div>
+
+  <div>
+    <label style="color: white;" for="scriptSelector">JavaScript-Datei auswählen:</label>
+    <select id="scriptSelector" onchange="runSelectedScript()">
+      <option value="">Bitte auswählen</option>
+      <option value="convolution.js">Script 1</option>
+      <option value="sketch_discret.js">Script 2</option>
+    </select>
   </div>
 
   <!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->

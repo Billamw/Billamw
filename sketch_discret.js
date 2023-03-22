@@ -1,7 +1,7 @@
-let xMin = -13;
-let xMax = 13;
-let yMin = -7;
-let yMax = 32;
+let xMinDiscret = -13;
+let xMaxDiscret = 13;
+let yMinDiscret = -7;
+let yMaxDiscret = 32;
 
 let signal1 = [.3,.6,.7,.8,.9];
 let signal2 = [.9,.8,.7,.8];
@@ -16,7 +16,7 @@ let t02 = 0-signal2.length/2;
 function setup() {
   createCanvas(600, 600);
 
-  slidert0 = createSlider(xMin+1, xMax-signal1.length, -(signal1.length + signal2.length/2 + 1), 1);
+  slidert0 = createSlider(xMinDiscret+1, xMaxDiscret-signal1.length, -(signal1.length + signal2.length/2 + 1), 1);
   slidert0.style('width', '300px')
 
   stroke(0);
@@ -39,12 +39,12 @@ function drawxt(signal, t) {
     if(signal[x] == 0) {
       continue;
     }
-    x1 = map(x+t, xMin, xMax, 0, width);
-    y = map(signal[x], yMin, yMax, height, 0)
+    x1 = map(x+t, xMinDiscret, xMaxDiscret, 0, width);
+    y = map(signal[x], yMinDiscret, yMaxDiscret, height, 0)
     strokeWeight(5);
     point(x1,y);
     strokeWeight(2);
-    line(x1, map(0, yMin, yMax, height, 0), x1, y);
+    line(x1, map(0, yMinDiscret, yMaxDiscret, height, 0), x1, y);
   }
 }
 function drawht(signal, t) {
@@ -53,12 +53,12 @@ function drawht(signal, t) {
       if(signal[signal.length-1-x] == 0) {
         continue;
       }
-      tmp = map(x+t, xMin, xMax, 0, width);
-      y = map(signal[signal.length-1-x], yMin, yMax, height, 0)
+      tmp = map(x+t, xMinDiscret, xMaxDiscret, 0, width);
+      y = map(signal[signal.length-1-x], yMinDiscret, yMaxDiscret, height, 0)
       strokeWeight(5);
       point(tmp,y);
       strokeWeight(2);
-      line(tmp, map(0, yMin, yMax, height, 0), tmp, y);
+      line(tmp, map(0, yMinDiscret, yMaxDiscret, height, 0), tmp, y);
     }
 }
 
