@@ -107,8 +107,8 @@ function randomImpuls(T, t) {
 
 function paralbolaImpuls(T, t) {
   if(abs(t)<=0.5){
-    // return (t-.5)*(t-.5);
-    math.cos(t*math.pi)
+    return (t-.5)*(t-.5);
+    // Math.cos(t*2*3.141592);
   }
   return 0;
 }
