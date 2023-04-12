@@ -112,7 +112,7 @@ function paralbolaImpuls(T, t) {
 
 function cosinusFunction(T, t) {
   if(abs(t)<=2) {
-    return Math.sin(2*Math.pi*(t));
+    return Math.sin(2*3.1415*(t));
   }
   return 0;
 }
