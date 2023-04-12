@@ -10,8 +10,8 @@
   "license": "ISC",
   "description": "",
 
-
   "dependencies": {
+    "type":"module",
     "mathjs": "^11.6.0"
   }
 }
