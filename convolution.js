@@ -1,16 +1,22 @@
+
+// declaration of mapped window size
 let xMin = -4;
 let xMax = 4;
 let yMin = -3;
 let yMax = 5;
 
+// updaded variables in draw()
 let t0 = 0;
-let t02 = 0;
 let T = 1;
-let T2 = 1;
 
-let a1 = t02 - T2/2;
 let b1 = t0 + T/2;
 let a2 = t0 - T/2;
+
+// constant variables
+const t02 = 0;
+const T2 = 1;
+
+let a1 = t02 - T2/2;
 let b2 = t02 + T2/2; 
 
 let st = rectImpuls;
@@ -29,19 +35,20 @@ function setup() {
 }
 
 function draw() {
+
   background(255);
+  noFill();
 
   t0 = slidert0.value();
+  T = sliderT.value();
   b1 = t0 + T/2;
   a2 = t0 - T/2;
-  T = sliderT.value();
 
-  noFill();
   
   drawst(st, t02, T2);
   drawht(ht, t0, T);
   
-  //making the Convolution red and thicker
+  //making the Convolution red and thick
   stroke(255,0,0);
   strokeWeight(2);
 
@@ -56,9 +63,9 @@ function draw() {
   // text('b2', map(b2, xMin, xMax, 0, width), 390);
 
 }
-let isCos = false;
+let isCos = false; // Is used in function convolustiob
 function setSt() {
-  slidert0.value(-3);
+  slidert0.value(-3);  // restarts the convolution
   var selectedOption = document.querySelector("select:last-of-type").value;
   if (selectedOption === "rect") {
     st = rectImpuls;
@@ -76,7 +83,7 @@ function setSt() {
 }
 
 function setHt() {
-  slidert0.value(-3);
+  slidert0.value(-3); // restarts the convolution
   var selectedOption = document.querySelector("select:first-of-type").value;
   if (selectedOption === "rect") {
     ht = rectImpuls;
@@ -84,6 +91,8 @@ function setHt() {
     ht = triangularImpuls;
   } else if (selectedOption === "parabola") {
     ht = paralbolaImpuls;
+  } else if (selectedOption === "dirac") {
+    ht = diracImpules;
   }
 }
 
@@ -117,6 +126,23 @@ function cosinusFunction(T, t) {
   return 0;
 }
 
+function diracImpuls(T, t) {
+  let sigma = 0.01
+
+  // const pi = Math.PI;
+  // const normalizeFactor = 1 / sigma * Math.sqrt(2 * pi);
+  // const gaussian = Math.exp(- (t * t) / (2 * sigma * sigma));
+  // return normalizeFactor * gaussian;
+
+  if(0 < t && t<= sigma) {
+    return 1/sigma;
+  }
+  return 0;
+}
+
+function diracImpules(T, t) {
+  return diracImpuls(T, t) + 0.5 * diracImpuls(T, t-1);
+}
 // Not in use
 // function randomImpuls(T, t) {
 //   //return rectImpuls(1, t) + rectImpuls(.5, t-1);
@@ -163,6 +189,7 @@ function convolution(st, ht, t) {
     b =  2;
   }
   let tau1, tau2, y1, y2;
+  // Müsste für den dirac Impuls kleiner gemacht werden
   let dtau = 0.01;
   let result = 0;
 
