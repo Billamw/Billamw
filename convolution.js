@@ -82,16 +82,21 @@ function setSt() {
   }
 }
 
-function setHt() {
+let isDirac = false; // used in drawHt()
+function setHt() { 
   slidert0.value(-3); // restarts the convolution
   var selectedOption = document.querySelector("select:first-of-type").value;
   if (selectedOption === "rect") {
+    isDirac = false;
     ht = rectImpuls;
   } else if (selectedOption === "triangular") {
+    isDirac = false;
     ht = triangularImpuls;
   } else if (selectedOption === "parabola") {
+    isDirac = false;
     ht = paralbolaImpuls;
   } else if (selectedOption === "dirac") {
+    isDirac = true;
     ht = diracImpules;
   }
 }
@@ -126,8 +131,9 @@ function cosinusFunction(T, t) {
   return 0;
 }
 
+let sigma = 0.005
+
 function diracImpuls(T, t) {
-  let sigma = 0.01
 
   // const pi = Math.PI;
   // const normalizeFactor = 1 / sigma * Math.sqrt(2 * pi);
@@ -141,7 +147,7 @@ function diracImpuls(T, t) {
 }
 
 function diracImpules(T, t) {
-  return diracImpuls(T, t) + 0.5 * diracImpuls(T, t-1);
+  return diracImpuls(T, t) + 0.5 * diracImpuls(T, t-.75);
 }
 // Not in use
 // function randomImpuls(T, t) {
@@ -166,6 +172,9 @@ function drawht(impuls, t0, T) {
   for (let x = xMin; x <= xMax; x += 0.01) {
     // mirroring the graph around the y achsis
     let y = impuls(T,(-x+t0));
+    if(isDirac) {
+      y *= sigma;
+    }
     vertex(map(x, xMin, xMax, 0, width), map(y, yMin, yMax, height, 0));
   }
   endShape();
@@ -189,8 +198,11 @@ function convolution(st, ht, t) {
     b =  2;
   }
   let tau1, tau2, y1, y2;
-  // Müsste für den dirac Impuls kleiner gemacht werden
+
   let dtau = 0.01;
+  if(isDirac) {
+    dtau = sigma
+  }
   let result = 0;
 
   tau1 = a;
