@@ -48,7 +48,7 @@ function draw() {
   drawst(st, t02, T2);
   drawht(ht, t0, T);
   
-  //making the Convolution red and thick
+  // making the Convolution red and thick
   stroke(255,0,0);
   strokeWeight(2);
 
@@ -63,7 +63,7 @@ function draw() {
   // text('b2', map(b2, xMin, xMax, 0, width), 390);
 
 }
-let isCos = false; // Is used in function convolustiob
+let isCos = false; // used in function convolustion
 function setSt() {
   slidert0.value(-3);  // restarts the convolution
   var selectedOption = document.querySelector("select:last-of-type").value;
@@ -118,8 +118,8 @@ function triangularImpuls(T, t) {
 }
 
 function paralbolaImpuls(T, t) {
-  if(abs(t)<=0.5){
-    return (t-.5)*(t-.5);
+  if(abs(t)<=T*0.5){
+    return T*(t-T*.5)*(t-T*.5);
   }
   return 0;
 }
@@ -135,11 +135,6 @@ let sigma = 0.005
 
 function diracImpuls(T, t) {
 
-  // const pi = Math.PI;
-  // const normalizeFactor = 1 / sigma * Math.sqrt(2 * pi);
-  // const gaussian = Math.exp(- (t * t) / (2 * sigma * sigma));
-  // return normalizeFactor * gaussian;
-
   if(0 < t && t<= sigma) {
     return 1/sigma;
   }
@@ -147,7 +142,7 @@ function diracImpuls(T, t) {
 }
 
 function diracImpules(T, t) {
-  return diracImpuls(T, t) + 0.5 * diracImpuls(T, t-.75);
+  return diracImpuls(T, t) + 0.5 * diracImpuls(T, t-T);
 }
 // Not in use
 // function randomImpuls(T, t) {
@@ -191,12 +186,15 @@ function drawConvolution(st, ht) {
 }
 
 function convolution(st, ht, t) {
-  let a = a1-T/2;
-  let b = b2+T/2;
-  if(isCos) {
-    a = -2;
-    b =  2;
-  }
+  // let a = a1-T/2;
+  // let b = b2+T/2;
+  // // checking, if the function is periodic
+  // if(st(T, 0.5) - st(T, 0.5+2*3.1415)< 0.0001){
+  //   a = -2;
+  //   b =  2;
+  // }
+  let a = -2;
+  let b =  2;
   let tau1, tau2, y1, y2;
 
   let dtau = 0.01;
@@ -212,8 +210,8 @@ function convolution(st, ht, t) {
   for (let i = a; i < b; i+= dtau) {
 
     // continous convolution
-    y1 = st(T, tau1) * ht(T, (t-tau1));
-    y2 = st(T, tau2) * ht(T, (t-tau2));
+    y1 = st(T2, tau1) * ht(T, (t-tau1));
+    y2 = st(T2, tau2) * ht(T, (t-tau2));
 
     // calculating the area of a sub rectangle
     result += dtau * (y1 + y2) / 2;
