@@ -1,37 +1,40 @@
 
+// declaration of window size
+const aspect    = 1;
+const height    = 600;
+const width     = parseInt(height * aspect);
+
 // declaration of mapped window size
-let xMin = -4;
-let xMax = 4;
-let yMin = -3;
-let yMax = 5;
+const xMin      = parseInt(-4 * aspect);
+const xMax      = parseInt( 4 * aspect);
+const yMin      = -3;
+const yMax      = 5;
 
 // updaded variables in draw()
-let t0 = 0;
-let T = 1;
+let t0          = 0;
+let T           = 1;
 
-let b1 = t0 + T/2;
-let a2 = t0 - T/2;
+let b1          = t0 + T/2;
+let a2          = t0 - T/2;
 
 // constant variables
-const t02 = 0;
-const T2 = 1;
+const t02       = 0;
+const T2        = 1;
 
-let a1 = t02 - T2/2;
-let b2 = t02 + T2/2; 
+const a1        = t02 - T2/2;
+const b2        = t02 + T2/2; 
 
-let st = rectImpuls;
-let ht = rectImpuls;
+let st          = rectImpuls;
+let ht          = rectImpuls;
 
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(width, height);
 
   slidert0 = createSlider(xMin, xMax, -3, 0.05);
-  slidert0.style('width', '300px')
+  // slidert0.style('width', '300px')
   sliderT = createSlider(.5, 2, 1, .5);
   
   stroke(0);
-
-
 }
 
 function draw() {
@@ -43,12 +46,11 @@ function draw() {
   T = sliderT.value();
   b1 = t0 + T/2;
   a2 = t0 - T/2;
-
   
   drawst(st, t02, T2);
   drawht(ht, t0, T);
   
-  // making the Convolution red and thick
+  // making Convolution red and thick
   stroke(255,0,0);
   strokeWeight(2);
 
@@ -57,10 +59,10 @@ function draw() {
   strokeWeight(1);
   stroke(0);
 
-  // text('a1', map(a1, xMin, xMax, 0, width), 390);
-  // text('b1', map(b1, xMin, xMax, 0, width), 370);
-  // text('a2', map(a2, xMin, xMax, 0, width), 370);
-  // text('b2', map(b2, xMin, xMax, 0, width), 390);
+  text('a1', map(a1, xMin, xMax, 0, width), 390);
+  text('b1', map(b1, xMin, xMax, 0, width), 370);
+  text('a2', map(a2, xMin, xMax, 0, width), 370);
+  text('b2', map(b2, xMin, xMax, 0, width), 390);
 
 }
 let isCos = false; // used in function convolustion
@@ -131,7 +133,7 @@ function cosinusFunction(T, t) {
   return 0;
 }
 
-let sigma = 0.005
+let sigma = 0.005;
 
 function diracImpuls(T, t) {
 
@@ -200,6 +202,8 @@ function convolution(st, ht, t) {
   let dtau = 0.01;
   if(isDirac) {
     dtau = sigma
+  } else {
+    dtau = 0.01;
   }
   let result = 0;
 
