@@ -59,10 +59,10 @@ function draw() {
   strokeWeight(1);
   stroke(0);
 
-  text('a1', map(a1, xMin, xMax, 0, width), 390);
-  text('b1', map(b1, xMin, xMax, 0, width), 370);
-  text('a2', map(a2, xMin, xMax, 0, width), 370);
-  text('b2', map(b2, xMin, xMax, 0, width), 390);
+  // text('a1', map(a1, xMin, xMax, 0, width), 390);
+  // text('b1', map(b1, xMin, xMax, 0, width), 370);
+  // text('a2', map(a2, xMin, xMax, 0, width), 370);
+  // text('b2', map(b2, xMin, xMax, 0, width), 390);
 
 }
 let isCos = false; // used in function convolustion
