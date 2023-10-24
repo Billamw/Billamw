@@ -107,6 +107,9 @@ function rectImpuls(T, t) {
   if(abs(t)<=T/2){
     return 1/T;
   }
+  // if(t > 0 && t < T) {
+  //   return 1/T
+  // }
   return 0;
 }
 
